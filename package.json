@@ -3,7 +3,9 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun --hot src/index.tsx"
+    "start": "bun --hot src/index.tsx",
+    "build:prod": "bun build src/index.tsx --outdir=dist --minify --target=bun --sourcemap=inline"
+
   },
   "devDependencies": {
     "@types/react": "^18.2.21",
