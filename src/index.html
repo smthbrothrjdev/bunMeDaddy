@@ -2,9 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Bun Me Daddy</title>
+  <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+  <script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
+  <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
 </head>
 <body>
+<header>
+  <h1> This is a front page!</h1>
+  <H2> NOW WITH SSR!</H2>
+</header>
+<main>
+  <button _="on click send clicky to #confirm"
+  > Click me! </button>
+  <div id="confirm" _="on clicky set my.innerText to 'clicked'"></div>
+</main>
 
 </body>
 </html>
