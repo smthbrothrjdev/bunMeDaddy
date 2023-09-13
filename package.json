@@ -3,16 +3,18 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
+    "dev": "concurrently \"bun start\" \"bun tw:watch\"",
     "start": "bun --hot src/index.tsx",
     "build:prod": "bun tw:build && bun build:bun",
     "build:bun": "bun build src/index.tsx --outdir=dist --minify --target=bun --sourcemap=inline",
-    "tw:watch": " bunx tailwindcss -i ./src/main.css -o ./dist/output.css --watch",
-    "tw:build": " bunx tailwindcss -i ./src/main.css -o ./dist/output.css"
+    "tw:watch": " bunx tailwindcss -i ./src/index.css -o ./dist/output.css --watch",
+    "tw:build": " bunx tailwindcss -i ./src/index.css -o ./dist/output.css"
   },
   "devDependencies": {
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "bun-types": "latest",
+    "concurrently": "^8.2.1",
     "tailwindcss": "^3.3.3"
   },
   "peerDependencies": {

@@ -7,16 +7,19 @@
   <script src="https://unpkg.com/htmx.org@1.9.5"></script>
   <script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
   <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+
 </head>
-<body>
+<body >
 <header>
-  <h1> This is a front page!</h1>
-  <H2> NOW WITH SSR!</H2>
 </header>
 <main>
-  <button _="on click send clicky to #confirm"
-  > Click me! </button>
-  <div id="confirm" _="on clicky set my.innerText to 'clicked'"></div>
+  <div class="bg-white flex flex-row justify-center w-full">
+    <div class="bg-white border border-solid border-black [background:linear-gradient(180deg,_rgb(249,_168,_212)_0%,_rgba(193.37,_122.47,_160.99,_0.61)_100%)] w-[360px] h-[800px] relative">
+      <div class="documentation-object"><div class="text">Enter!</div></div>
+      <div class="text-blue-600">What is your name?</div>
+      <div class="text-wrapper"><div class="text-2"></div></div>
+    </div>
+  </div>
 </main>
 
 </body>
