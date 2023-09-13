@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY package.json .
 COPY tsconfig.json .
+COPY tailwind.config.ts .
 COPY bun.lockb .
 COPY src ./src
 
