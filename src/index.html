@@ -9,18 +9,16 @@
   <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
 
 </head>
-<body >
+<body
+    class="flex justify-center items-center h-screen  border border-solid border-black [background:linear-gradient(180deg,_rgb(249,_168,_212)_0%,_rgba(193.37,_122.47,_160.99,_0.61)_100%)] ">
 <header>
 </header>
-<main>
-  <div class="bg-white flex flex-row justify-center w-full">
-    <div class="bg-white border border-solid border-black [background:linear-gradient(180deg,_rgb(249,_168,_212)_0%,_rgba(193.37,_122.47,_160.99,_0.61)_100%)] w-[360px] h-[800px] relative">
-      <div class="documentation-object"><div class="text">Enter!</div></div>
-      <div class="text-blue-600">What is your name?</div>
-      <div class="text-wrapper"><div class="text-2"></div></div>
-    </div>
-  </div>
+<main class="flex flex-col items-center justify-center space-y-4 h-1/3">
+  <h1 class="text-purple-900 text-8xl font-semibold mb-10">What is your name?</h1>
+  <label class="w-full mb-4 shadow-inner">
+    <input type="text" class=" border-none outline-purple-500 shadow-inner w-full text-5xl mb-20 pl-5"/>
+  </label>
+  <button class=" shadow-2xl rounded-3xl w-1/3 h-1/6 border-2 bg-purple-500 justify-center" >ENTER!</button>
 </main>
-
 </body>
 </html>
