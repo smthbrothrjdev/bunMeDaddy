@@ -4,13 +4,16 @@
   "type": "module",
   "scripts": {
     "start": "bun --hot src/index.tsx",
-    "build:prod": "bun build src/index.tsx --outdir=dist --minify --target=bun --sourcemap=inline"
-
+    "build:prod": "bun tw:build && bun build:bun",
+    "build:bun": "bun build src/index.tsx --outdir=dist --minify --target=bun --sourcemap=inline",
+    "tw:watch": " bunx tailwindcss -i ./src/main.css -o ./dist/output.css --watch",
+    "tw:build": " bunx tailwindcss -i ./src/main.css -o ./dist/output.css"
   },
   "devDependencies": {
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "tailwindcss": "^3.3.3"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
