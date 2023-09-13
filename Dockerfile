@@ -7,6 +7,7 @@ COPY tsconfig.json .
 COPY tailwind.config.ts .
 COPY bun.lockb .
 COPY src ./src
+COPY db.sqlite .
 
 RUN bun install
 RUN bun build:prod
