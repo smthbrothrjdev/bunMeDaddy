@@ -1,6 +1,9 @@
 import {Database} from 'bun:sqlite'
 import {Users, type User} from "./models/Users";
 import {request} from "http";
+import { renderToReadableStream } from "react-dom/server";
+import UserNotFound from "./views/UserNotFound.tsx";
+
 
 const usersController = new Users(new Database("db.sqlite"))
 usersController.createTable();
@@ -28,8 +31,12 @@ async function routeHandler(req: Request): Promise<Response> {
     const {indexNameInput} = await req.json();
     const name = indexNameInput.toLowerCase();
 
+    const stream = await renderToReadableStream(
+        <UserNotFound name={name} />
+    )
+
   if (usersController.findName(name)==undefined)
-    return new Response(Bun.file("src/views/createUserPrompt.html"))
+    return new Response(stream,{headers:{"Content-Type":"text/html"}})
   }
   return new Response("NotFound", {status: 404})
 }
