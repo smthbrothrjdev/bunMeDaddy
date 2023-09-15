@@ -3,6 +3,7 @@ import {type Database} from 'bun:sqlite'
 export type User = {
   id: number,
   name: string
+  password?: string
 }
 
 export class Users {
@@ -27,7 +28,10 @@ export class Users {
             TEXT
             UNIQUE
             NOT
-            NULL
+            NULL,
+
+            password
+            TEXT
         )`);
 
     createTableQuery.run();
@@ -35,11 +39,32 @@ export class Users {
 
   add(name: string) {
     const usersAddQuery = this.db.query(`
-        INSERT INTO users (name)
+        INSERT
+        OR IGNORE INTO users (name)
         VALUES ("${name}")
     `);
     usersAddQuery.run();
   }
+
+  async setPassword(name: string, password: string): Promise<string> {
+    const user = this.findName(name);
+    if (user == null) {
+      throw new Error("cannot find user to reset password")
+    }
+
+    if (user.password) {
+      return "Not Found"
+    }
+    const passwordHash = await Bun.password.hash(password)
+    const passwordQuery = this.db.query(`
+        UPDATE users
+        SET password = ${passwordHash}
+        WHERE name = ${name};
+    `)
+    passwordQuery.run()
+    return "Password Updated"
+  }
+
 
   list(): User[] {
     const usersQuery = this.db.query('SELECT * FROM users');
@@ -53,6 +78,11 @@ export class Users {
     return userQuery.all().at(0) as unknown as User | null;
   }
 
+  initialize() {
+    this.createTable();
+    this.add(`emily`);
+    this.add('parents');
+  }
 
   close() {
     this.db.close()
