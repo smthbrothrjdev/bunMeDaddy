@@ -2,13 +2,17 @@ import {Database} from 'bun:sqlite'
 import {Users} from "./models/Users";
 import {renderToReadableStream} from "react-dom/server";
 import UserNotFound from "./views/UserNotFound.tsx";
+import {Stores} from "./models/Item.ts";
+import Store from "./views/Store.tsx";
 
 
 const usersController = new Users(new Database("db.sqlite"))
+const storeController = new Stores(new Database("db.sqlite"))
 usersController.initialize();
+storeController.initialize();
 
 usersController.list().forEach((user) => {
-    console.log(user.name + " " + user.password + " "+ user.money)
+    console.log(user.name + " " + user.password + " " + user.money)
 })
 
 const server = Bun.serve({
@@ -25,7 +29,7 @@ async function routeHandler(req: Request): Promise<Response> {
         return new Response(Bun.file("dist/output.css"))
     }
 
-    if (url.pathname == "/dev/close" ) {
+    if (url.pathname == "/dev/close") {
         usersController.close()
         server.stop()
         return new Response("CLOSING")
@@ -36,28 +40,32 @@ async function routeHandler(req: Request): Promise<Response> {
         const userObject = usersController.findName(principle)
         console.log(userObject)
 
-        const stream = await renderToReadableStream(
-            <UserNotFound name={principle}/>
-        )
 
         if (!userObject) {
             throw new Error("User Lookup in db failed")
         }
 
-        if (userObject.password ==null) {
+        if (userObject.password == null) {
+            const stream = await renderToReadableStream(
+                <UserNotFound name={principle}/>
+            )
             return new Response(stream, {headers: {"Content-Type": "text/html"}})
         }
 
+        const stream = await renderToReadableStream(
+            <Store principle={principle} store={storeController}/>
+        )
+        return new Response(stream, {headers: {"Content-Type": "text/html"}})
     }
 
 
-    if (url.pathname == '/new-password' && req.method=='POST') {
+    if (url.pathname == '/new-password' && req.method == 'POST') {
         const {principle, newPassword} = await req.json()
 
-       usersController.setPassword(principle, Bun.escapeHTML(newPassword))
+        usersController.setPassword(principle, Bun.escapeHTML(newPassword))
 
-        return newPassword==''
-            ?  new Response("no password needed next time!")
+        return newPassword == ''
+            ? new Response("no password needed next time!")
             : new Response("Password updated successfully!")
     }
     return new Response("NotFound", {status: 404})

@@ -3,7 +3,7 @@ import {User} from "./Users.ts";
 
 export type Item = {
     id: number,
-    itemName: string,
+    item_name: string,
     price: number,
 }
 
@@ -31,7 +31,7 @@ export class Stores {
                         NULL,
 
                 price
-                    INTEGER
+                INTEGER
             )`);
 
         createTableQuery.run();
@@ -42,14 +42,31 @@ export class Stores {
                                           WHERE item_name = "${name}"`))
         return userQuery.all().at(0) as unknown as Item | null;
     }
-    add(itemName: string, price: number): string {
+
+
+    addItem(itemName: string, price: number): string {
 
         const item = this.findItemName(itemName)
         const usersAddQuery = this.db.query(`
             INSERT OR IGNORE
             INTO store (item_name, price)
-            VALUES ("${itemName}", price)
+            VALUES ("${itemName}", ${price})
         `);
-//todo fix this
+        if (!item){
+            usersAddQuery.run()
+            return `Added ${itemName}: \$${price}.00 to the store`
+        }
+        return 'unable to add item to store'
     }
+
+    list(): Item[] {
+        const itemsQuery = this.db.query('SELECT * FROM store');
+        return itemsQuery.all() as unknown[] as Item[];
+    }
+
+    initialize(){
+        this.createTable()
+        this.addItem("test",10)
+    }
+
 }
