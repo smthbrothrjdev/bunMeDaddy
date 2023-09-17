@@ -66,7 +66,11 @@ export class Stores {
 
     initialize(){
         this.createTable()
-        this.addItem("test",10)
+        this.addItem("Item one",10)
+        this.addItem("Item two",1)
+        this.addItem("Long Name Item 3",100)
+        this.addItem("Long Name Item 4",1)
+        this.addItem("Long Name Item 5",10)
     }
 
 }

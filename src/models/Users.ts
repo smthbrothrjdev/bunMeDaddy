@@ -83,7 +83,7 @@ export class Users {
          return value
     }
 
-     async setPassword(name: string, password: string): boolean {
+     async setPassword(name: string, password: string): Promise<boolean> {
         const user = this.findName(name);
         if (user == null) {
             throw new Error("cannot find user to reset password")
